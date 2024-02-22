@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "jishaku": {
-      "locked": {
-        "lastModified": 1708346982,
-        "narHash": "sha256-sFTndsRrskQvCw6bxUnlH06AFqGfrqys1eJyImdi2UQ=",
-        "owner": "itslychee",
-        "repo": "fruitpkgs",
-        "rev": "e7049e97dbfed9fcaf9a637510dedef202462e52",
-        "type": "github"
-      },
-      "original": {
-        "owner": "itslychee",
-        "ref": "package/python/jishaku",
-        "repo": "fruitpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1708564076,
@@ -32,7 +16,6 @@
     },
     "root": {
       "inputs": {
-        "jishaku": "jishaku",
         "nixpkgs": "nixpkgs"
       }
     }
