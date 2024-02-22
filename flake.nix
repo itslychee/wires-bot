@@ -1,31 +1,28 @@
 {
   description = "A very basic flake";
-
   inputs = {
-    # Pull from my jishaku branch as it's not in upstream yet
-    jishaku.url =  "github:itslychee/fruitpkgs?ref=package/python/jishaku";
+    nixpkgs.url = "github:NixOS/nixpkgs";
   };
 
-  outputs = { self, nixpkgs, jishaku }: let
+  outputs = { self, nixpkgs}: let
     eachSystem = f:
     nixpkgs.lib.genAttrs [ "x86_64-linux" ]
     (system: f { pkgs = nixpkgs.legacyPackages.${system}; });
   in {
     packages = eachSystem ({ pkgs }: let
       python = pkgs.python311Packages; 
-      jsk = jishaku.legacyPackages.${pkgs.system}.python311Packages.jishaku;
     in {
-      default = python.buildPythonApplication {
+      default = python.buildPythonPackage {
         name = "wiresbot";
         pyproject = true;
+        strictDeps = true;
         src = ./.;
-        doCheck = false;
+        build-system = [ python.setuptools-scm ];
         dependencies = (builtins.attrValues {
-          jishaku = jsk;
-          inherit (python) discordpy pillow;
+          inherit (python) discordpy pillow jishaku;
           discord-py-paginators = python.callPackage ./nix/dpy-paginator.nix { };
         });
-
+        meta.mainProgram = "bot";
       };
     });
   };
