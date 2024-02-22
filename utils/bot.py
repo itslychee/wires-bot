@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Union
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Union
 
 import logging
 import os
@@ -24,7 +24,7 @@ class WiresBot(commands.Bot):
 
     def __init__(
         self,
-        command_prefix: Union[str, Callable[[Self, discord.Message], Union[str, list[str]]]],
+        command_prefix: Union[Iterable[Any], Callable[[Self, discord.Message], Iterable[Any]]],
         intents: discord.Intents,
         strip_after_prefix: bool = True,
         **options: Any,
