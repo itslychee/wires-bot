@@ -18,6 +18,7 @@
         src = fileset.toSource {
           root = ./.;
           fileset = fileset.unions [
+            ./pyproject.toml
             ./wires
           ];
         };
