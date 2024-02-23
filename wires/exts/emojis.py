@@ -73,7 +73,7 @@ class Emojis(commands.GroupCog,):
                     return
                 
                 right_size = await resize_for_emoji(image)
-                return await self._add_emoji(interaction, name=name, image=right_size, reason=reason)
+                return await self._add_emoji(interaction, name=name, image=right_size.read(), reason=reason)
 
             elif e.code == 30008:
                 return await interaction.followup.send("❌ **Error!**\nMaximum amount of static emojis reached.", ephemeral=True)
