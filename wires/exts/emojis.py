@@ -124,10 +124,7 @@ class Emojis(commands.GroupCog,):
         except aiohttp.InvalidURL:
             return await interaction.followup.send("The URL you have provided is invalid.", ephemeral=True)
         
-        try:
-            added_emoji = await self._add_emoji(interaction, name=name, image=response, reason=reason)
-        except Exception as e:
-            return await interaction.followup.send(f"An error occurred: {e}", ephemeral=True)
+        dded_emoji = await self._add_emoji(interaction, name=name, image=response, reason=reason)
         
         if not added_emoji:
             return await interaction.followup.send("Something went wrong while adding the emoji. Try again later.", ephemeral=True)
@@ -168,17 +165,14 @@ class Emojis(commands.GroupCog,):
         
         added_emoji: discord.Emoji | None = None
         await interaction.response.defer()
-        try:
-            if emoji.obj:
-                added_emoji = await self._add_emoji(interaction, name=emoji.name, image=await emoji.obj.read(), reason=f"Copy of {emoji.name}")
-            else:
-                async with self.bot.session.get(emoji.url) as response:
-                    response = await response.read()
+        if emoji.obj:
+            added_emoji = await self._add_emoji(interaction, name=emoji.name, image=await emoji.obj.read(), reason=f"Copy of {emoji.name}")
+        else:
+            async with self.bot.session.get(emoji.url) as response:
+                response = await response.read()
 
-                added_emoji = await self._add_emoji(interaction, name=emoji.name, image=response, reason=f"Copy of {emoji.name}")
-        except Exception as e:
-            return await interaction.followup.send(f"An error occurred: {e}", ephemeral=True)
-
+            added_emoji = await self._add_emoji(interaction, name=emoji.name, image=response, reason=f"Copy of {emoji.name}")
+                
         if not added_emoji:
             return await interaction.followup.send("Something went wrong while adding the emoji. Try again later.", ephemeral=True)
 
