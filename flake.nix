@@ -5,9 +5,8 @@
   };
 
   outputs = { self, nixpkgs}: let
-    eachSystem = f:
-    nixpkgs.lib.genAttrs [ "x86_64-linux" ]
-    (system: f { pkgs = nixpkgs.legacyPackages.${system}; });
+    eachSystem = f: nixpkgs.lib.genAttrs [ "x86_64-linux" ] (system: f { pkgs = nixpkgs.legacyPackages.${system}; });
+    inherit (nixpkgs.lib) fileset sources;
   in {
     packages = eachSystem ({ pkgs }: let
       python = pkgs.python311Packages; 
@@ -16,13 +15,18 @@
         name = "wiresbot";
         pyproject = true;
         strictDeps = true;
-        src = ./.;
+        src = fileset.toSource {
+          root = ./.;
+          fileset = fileset.unions [
+            ./wires
+          ];
+        };
         build-system = [ python.setuptools-scm ];
         dependencies = (builtins.attrValues {
           inherit (python) discordpy pillow jishaku;
           discord-py-paginators = python.callPackage ./nix/dpy-paginator.nix { };
         });
-        meta.mainProgram = "bot";
+        meta.mainProgram = "wires";
       };
     });
   };
