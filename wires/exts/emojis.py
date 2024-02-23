@@ -124,7 +124,7 @@ class Emojis(commands.GroupCog,):
         except aiohttp.InvalidURL:
             return await interaction.followup.send("The URL you have provided is invalid.", ephemeral=True)
         
-        dded_emoji = await self._add_emoji(interaction, name=name, image=response, reason=reason)
+        added_emoji = await self._add_emoji(interaction, name=name, image=response, reason=reason)
         
         if not added_emoji:
             return await interaction.followup.send("Something went wrong while adding the emoji. Try again later.", ephemeral=True)
