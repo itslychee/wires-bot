@@ -61,9 +61,8 @@ class Emojis(commands.GroupCog,):
             if e.code in (50045, 40005, 50035):
                 main = "❌ **Error!**\nThe file is larger than 256kb.\n"
                 ask = "**Would you like me to try and resize the image to the correct size?**"
-                resize_message = await interaction.followup.send(main + ask, wait=True, ephemeral=True)
                 view = Confirm(interaction.user.id)
-                view.message = resize_message
+                view.message = await interaction.followup.send(main + ask, wait=True, ephemeral=True, view=view)
 
                 await view.wait()
                 if view.value is None:
