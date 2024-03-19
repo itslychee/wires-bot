@@ -30,5 +30,6 @@
         meta.mainProgram = "wires";
       };
     });
+    nixosModule = import ./nix/module.nix;
   };
 }

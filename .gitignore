@@ -15,3 +15,4 @@ result
 
 # venv stuff
 .?[vV][eE][nN][vV]/
+.direnv

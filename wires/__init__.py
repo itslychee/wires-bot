@@ -1,4 +1,6 @@
 from __future__ import annotations
+from functools import cached_property
+import os
 from typing import TYPE_CHECKING, Any, Callable, Iterable, Union
 
 import logging
@@ -37,9 +39,14 @@ class WiresBot(commands.Bot):
             **options
         )
 
-    @property
+    @cached_property
     def config(self) -> dict[str, Any]:
-        with open("config.toml", "r", encoding="utf-8") as file:
+        creds = os.getenv("CREDENTIALS_DIRECTORY") # type: ignore
+        config = "config.toml"
+        if creds:
+            config = (pathlib.Path(creds) / "configuration").absolute()
+
+        with open(str(config), "r", encoding="utf-8") as file:
             return tomllib.loads(file.read())  # type: ignore
 
     async def setup_hook(self) -> None:
@@ -55,7 +62,6 @@ class WiresBot(commands.Bot):
 
         for ext in pathlib.Path("wires/exts").glob("**/*.py"):
             ext = str(ext.with_suffix("")).replace("/", ".")
-            print(ext)
             await self.load_extension(ext)
             logging.info(f"Loaded extension {ext}")
 
