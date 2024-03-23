@@ -66,7 +66,8 @@ class WiresBot(commands.Bot):
             logging.info(f"Loaded extension {ext}")
 
     async def close(self) -> None:
-        await self.session.close()
+        if hasattr(self, "session"):
+            await self.session.close()
         await super().close()
 
     def run(
