@@ -28,6 +28,7 @@ in
         reloadTriggers = [ cfg.package ];
         requires = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
+        path =  [ "/run/current-system/sw"];
         serviceConfig = {
             ExecStart = getExe cfg.package;
             LoadCredential = "configuration:${cfg.config}"; 
