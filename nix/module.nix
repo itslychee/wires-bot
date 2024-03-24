@@ -1,4 +1,4 @@
-{ config, lib, ...}:
+{ config, pkgs, lib, ...}:
 let
     cfg = config.services.wiresbot;
     inherit (lib)
@@ -55,7 +55,6 @@ in
             SystemCallFilter = "@network-io @system-service";
             BindReadOnlyPaths = [
                 "/nix/store"
-                "${config.system.build.toplevel}/sw/bin"
                 "/bin"
             ];
             UMask = "0077";

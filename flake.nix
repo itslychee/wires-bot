@@ -2,10 +2,9 @@
   description = "A very basic flake";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
-    fruitpkgs.url = "github:itslychee/fruitpkgs?ref=patch/jishaku-bin-bash";
   };
 
-  outputs = { self, nixpkgs, fruitpkgs}: let
+  outputs = { self, nixpkgs}: let
     eachSystem = f: nixpkgs.lib.genAttrs [ "x86_64-linux" ] (system: f { pkgs = nixpkgs.legacyPackages.${system}; });
     inherit (nixpkgs.lib) fileset sources;
   in {
@@ -25,8 +24,7 @@
         };
         build-system = [ python.setuptools-scm ];
         dependencies = (builtins.attrValues {
-          inherit (python) discordpy pillow;
-          inherit (fruitpkgs.legacyPackages.${pkgs.system}.python311Packages) jishaku;
+          inherit (python) discordpy pillow jishaku;
           discord-py-paginators = python.callPackage ./nix/dpy-paginator.nix { };
         });
         meta.mainProgram = "wires";
