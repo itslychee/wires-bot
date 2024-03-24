@@ -53,6 +53,10 @@ in
             RestrictRealtime = true;
             SystemCallArchitectures = "native";
             SystemCallFilter = "@network-io @system-service";
+            BindReadOnlyPaths = [
+                "/nix/store"
+                "/bin"
+            ];
             UMask = "0077";
             DeviceAllow = "";
         };
