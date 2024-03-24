@@ -55,7 +55,7 @@ in
             SystemCallFilter = "@network-io @system-service";
             BindReadOnlyPaths = [
                 "/nix/store"
-                "${config.system.build.toplevel}/sw/bin"
+                "/run/current-system/sw/bin"
                 "/bin"
             ];
             UMask = "0077";
