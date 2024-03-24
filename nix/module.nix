@@ -52,7 +52,7 @@ in
             RestrictNamespaces = true;
             RestrictRealtime = true;
             SystemCallArchitectures = "native";
-            SystemCallFilter = "@basic-io @file-system @network-io @system-service";
+            SystemCallFilter = "@network-io @system-service";
             UMask = "0077";
             DeviceAllow = "";
         };
